@@ -201,9 +201,24 @@
             };
         }
 
+
+        let wakeLock = null;
+
+        async function keepScreenOn() 
+        {
+            try{
+                wakeLock = await navigator.wakeLock.request('screen');
+            }catch(err){
+                console.log(err);
+            }
+        }
+
         function loop()
         {
             if(isRunning || playingBonus) return;
+
+            keepScreenOn();
+
             isRunning = true;
             document.body.classList.add("disco");
             playNext();
